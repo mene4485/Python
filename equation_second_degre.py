@@ -17,8 +17,9 @@ def f(x):
 alpha = (-b)/(2*a)
 beta = f(alpha)
 
-x = np.arange(-10,10,0.1)
+x = np.arange(-1000,1000,0.001)
 y=f(x)
+
 
 if delta < 0 :
    print("Il n'y a pas de solution pour cette équation")
@@ -35,12 +36,13 @@ elif delta == 0:
 elif delta > 0:
      solution2 = round((-b-(delta**0.5))/(2*a),2)
      solution1 = round((-b+(delta**0.5))/(2*a),2)
-     plt.plot(solution2,0,'ro')
-     plt.plot(solution1,0,'ro')
+     plt.plot((-b-(delta**0.5))/(2*a),0,'ro')
+     plt.plot((-b+(delta**0.5))/(2*a),0,'ro')
      plt.text(solution2,-0.4, str(solution2), fontsize=12)
      plt.text(solution1,-0.4, str(solution1), fontsize=12)
      print("Les solutions de cette équation sont %s et %s" % (solution1,solution2))
-     plt.xlim(solution1 - 2.1,solution2 + 2.1)
+     wesh = (solution2 + solution1)/8
+     plt.xlim(solution2 - wesh ,solution1 + wesh)
      if beta >= 0:
         plt.ylim(-2.1,beta+2.1)
      else:
@@ -67,5 +69,8 @@ if courbe == "y":
   ax.spines['bottom'].set_position(('data',0))
   ax.yaxis.set_ticks_position('left')
   ax.spines['left'].set_position(('data',0))
+  plt.subplots_adjust(left=0, bottom=0, right=1, top=1,wspace=None, hspace=None)
+  figManager = plt.get_current_fig_manager() 
+  figManager.full_screen_toggle() 
   plt.show()
 
