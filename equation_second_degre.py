@@ -1,14 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from pylab import *
-import sys
 
-print("Nombre A ?") 
-a = float(sys.stdin.readline())
-print("Nombre B ?") 
-b = float(sys.stdin.readline()) 
-print("Nombre C ?") 
-c = float(sys.stdin.readline())
+a = float(input("Nombre A : "))
+b = float(input("Nombre B : "))
+c = float(input("Nombre C : "))
 delta = b*b-4*a*c 
 
 def f(x):
@@ -20,37 +16,82 @@ beta = f(alpha)
 x = np.arange(-1000,1000,0.001)
 y=f(x)
 
+print()
+print("Alpha = " + str(alpha))
+print("Beta = " + str(beta))
+
+print("Delta = " + str(delta)) 
 
 if delta < 0 :
-   print("Il n'y a pas de solution pour cette équation")
-   plt.xlim(alpha-5.1,alpha+5.1)
-   if beta >= 0:
-        plt.ylim(-2.1,beta+5.1)
-   else:
-        plt.ylim(beta-2.1,(-1)*beta) 
+  print("Il n'y a pas de solution pour cette équation")
+  plt.xlim(alpha-5.1,alpha+5.1)
+  if beta >= 0:
+    plt.ylim(-2.1,beta+5.1)
+  else:
+    plt.ylim(beta-2.1,(-1)*beta)  
+  if a > 0:
+    print()
+    print("Tableau de signe de f(x) : ")
+    print("          x     | -infini          +infini |")
+    print("          f(x)  |             +            |")
+    print()
+  elif a < 0:
+    print()
+    print("Tableau de signe de f(x) : ")
+    print("          x     | -infini          +infini |")
+    print("          f(x)  |             -            |")
+    print()
 elif delta == 0:
-     solution = round(-b/(2*a),2)
-     print("La seule solution de cette équation est %s" % solution)
-     plt.xlim(solution - 5.1,solution + 5.1)
-     plt.ylim(-8.0,8.0)
+    solution = round(-b/(2*a),2)
+    print("La seule solution de cette équation est %s" % solution)
+    plt.xlim(solution - 5.1,solution + 5.1)
+    plt.ylim(-8.0,8.0)
+    if a > 0:
+      print()
+      print("Tableau de signe de f(x) : ")
+      print("          x     | -infini     %s     +infini |" % solution)
+      print("          f(x)  |      +        " + "0" + "      +      " + (len(str(solution))-3)*" " + "|")
+      print()
+    elif a < 0:
+      print()
+      print("Tableau de signe de f(x) : ")
+      print("          x     | -infini     %s     +infini |" % solution)
+      print("          f(x)  |      -        " + "0" + "      -      " + (len(str(solution))-3)*" " + "|")
+      print()
 elif delta > 0:
      solution2 = round((-b-(delta**0.5))/(2*a),2)
      solution1 = round((-b+(delta**0.5))/(2*a),2)
+     wesh = (solution2 + solution1)/8
+     if a > 0:
+      print()
+      print("Tableau de signe de f(x) : ")
+      print("          x     | -infini     %s          %s     +infini |" % (solution2,solution1))
+      print("          f(x)  |       +       " + "0" + "     -     " + " 0" + "       +     " + (len(str(solution2))-1)*" " + "|")
+      print()
+      plt.xlim(solution2 + wesh ,solution1 - wesh)
+     elif a < 0:
+      print()
+      print("Tableau de signe de f(x) : ")
+      print("          x     | -infini     %s          %s     +infini |" % (solution1,solution2))
+      print("          f(x)  |       -       " + "0" + "      +     " + " 0" + "       -     " + (len(str(solution1))-1)*" " + "|")
+      print()
+      plt.xlim(solution1 - wesh ,solution2 + wesh)
      plt.plot((-b-(delta**0.5))/(2*a),0,'ro')
      plt.plot((-b+(delta**0.5))/(2*a),0,'ro')
      plt.text(solution2,-0.4, str(solution2), fontsize=12)
      plt.text(solution1,-0.4, str(solution1), fontsize=12)
      print("Les solutions de cette équation sont %s et %s" % (solution1,solution2))
-     wesh = (solution2 + solution1)/8
-     plt.xlim(solution2 - wesh ,solution1 + wesh)
+     
+     
+
      if beta >= 0:
         plt.ylim(-2.1,beta+2.1)
      else:
         plt.ylim(beta-2.1,(-1)*beta) 
 
-print("Delta : " + str(delta)) 
 
-courbe = input("Voulez-vous une Représentation de votre fonction ?(y/n)")
+
+courbe = input("Voulez-vous une Représentation de votre fonction ?(y/n) ")
 if courbe == "y":
   plt.grid(True)
   plt.title("Représentation graphique d'une fonction")
