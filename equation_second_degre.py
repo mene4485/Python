@@ -106,9 +106,9 @@ elif delta > 0:
       print("          f(x)  |       +       " + "0" + "     -     " + " 0" + "       +     " + (len(str(solution2))-1)*" " + "|")
       print()
       if solution2 < 0:
-        plt.xlim(solution2 - wesh ,solution1 + wesh)
+        plt.xlim(solution2 - abs(wesh) ,solution1 + abs(wesh))
       else :
-        plt.xlim(solution2 - wesh ,solution1 + wesh)
+        plt.xlim(solution2 - abs(wesh) ,solution1 + abs(wesh)) 
      elif a < 0:
       print()
       print("Tableau de signe de f(x) : ")
@@ -125,7 +125,7 @@ elif delta > 0:
      plt.text(solution1,-0.4, str(solution1), fontsize=12)
      if solution1 == int(solution1):
        if solution2 == int(solution2):
-         print("Les solutions de cette équation sont %s et %s" % (int(solution1),int(solution2)))
+         print("Les solutions de cette équation sont %s et %s" % (int(solution2),int(solution1)))
        else :
          mene = simplify_fraction(-b-(delta**0.5),2*a)
          print("Les solutions de cette équation sont %s et %s/%s qui équivaut à environ %s" % (int(solution1),int(mene[0]),int(mene[1]),str(solution2)))
