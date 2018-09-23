@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib import*
 import numpy as np
 from pylab import *
 from fractions import Fraction
@@ -61,7 +62,10 @@ else :
 #print les solutions de l'équation + le tableau de signes
 if delta < 0 :
   print("Il n'y a pas de solution pour cette équation")
-  plt.xlim(alpha-5.1,alpha+5.1)
+  if alpha >= 5.1:
+  	plt.xlim(-2.1,alpha+5.1)
+  else :
+  	plt.xlim(alpha-5.1,alpha+5.1)
   if beta >= 0:
     plt.ylim(-2.1,beta+5.1)
   else:
@@ -105,7 +109,7 @@ elif delta > 0:
       print("          x     | -infini     %s          %s     +infini |" % (solution2,solution1))
       print("          f(x)  |       +       " + "0" + "     -     " + " 0" + "       +     " + (len(str(solution2))-1)*" " + "|")
       print()
-      if solution2 < 0:
+      if solution2 <= 0:
         plt.xlim(solution2 - abs(wesh) ,solution1 + abs(wesh))
       else :
         plt.xlim(solution2 - abs(wesh) ,solution1 + abs(wesh)) 
@@ -113,12 +117,12 @@ elif delta > 0:
       print()
       print("Tableau de signe de f(x) : ")
       print("          x     | -infini     %s          %s     +infini |" % (solution1,solution2))
-      print("          f(x)  |       -       " + "0" + "      +     " + " 0" + "       -     " + (len(str(solution1))-1)*" " + "|")
+      print("          f(x)  |       -       " + "0" + "      +     " + " 0" + "       -     " + (len(str(solution1))-4)*" " + "|")
       print()
-      if solution2 < 0:
-        plt.xlim(solution2 - wesh ,solution1 + wesh)
+      if solution2 <= 0:
+        plt.xlim(solution1 - abs(wesh) ,solution2 + abs(wesh))
       else :
-        plt.xlim(solution2 + wesh ,solution1 - wesh)
+        plt.xlim(solution1 - abs(wesh) ,solution2 + abs(wesh)) 
      plt.plot((-b-(delta**0.5))/(2*a),0,'ro')
      plt.plot((-b+(delta**0.5))/(2*a),0,'ro')
      plt.text(solution2,-0.4, str(solution2), fontsize=12)
@@ -170,13 +174,17 @@ if courbe == "y":
   ax.yaxis.set_ticks_position('left')
   ax.spines['left'].set_position(('data',0))
   plt.subplots_adjust(left=0, bottom=0, right=1, top=1,wspace=None, hspace=None)
-  if abs(int(beta)) >= 10:
-  	ax.yaxis.set_major_locator(MultipleLocator(2.0))
-  else:
-  	ax.yaxis.set_major_locator(MultipleLocator(1.0))
-  ax.xaxis.set_major_locator(MultipleLocator(1.0))
-  ax.xaxis.set_minor_locator(MultipleLocator(0.2))
-  ax.yaxis.set_minor_locator(MultipleLocator(0.2))
+
+
+  if abs(int(beta)) <= 30:
+	  if abs(int(beta)) >= 10:
+	  	ax.yaxis.set_major_locator(MultipleLocator(2.0))
+	  else:
+	  	ax.yaxis.set_major_locator(MultipleLocator(1.0))
+	  ax.xaxis.set_major_locator(MultipleLocator(1.0))
+	  ax.xaxis.set_minor_locator(MultipleLocator(0.2))
+	  ax.yaxis.set_minor_locator(MultipleLocator(0.2)) 
+
   ax.grid(which='major', axis='x', linewidth=0.75, linestyle='-', color='0.75')
   ax.grid(which='minor', axis='x', linewidth=0.25, linestyle='-', color='0.75')
   ax.grid(which='major', axis='y', linewidth=0.75, linestyle='-', color='0.75')
