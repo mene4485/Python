@@ -1,10 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from pylab import *
+from fractions import Fraction
 
-a = float(input("Nombre A : "))
-b = float(input("Nombre B : "))
-c = float(input("Nombre C : "))
+
+a = Fraction(input("Nombre A : "))
+b = Fraction(input("Nombre B : "))
+c = Fraction(input("Nombre C : "))
+
 delta = b*b-4*a*c 
 
 def f(x):
@@ -33,29 +36,27 @@ def simplify_fraction(numer, denom):
 alpha = (-b)/(2*a)
 beta = f(alpha)
 
-x = np.arange(-1000,1000,0.001)
+x = np.arange(-1000,1000,0.05)
 y=f(x)
 
 print()
 
 # print alpha et beta
-if alpha == int(alpha):
-  print("Alpha = " + str(int(alpha)))
+if alpha.denominator == 1:
+  print("Alpha = " + str(alpha.numerator))
 else: 
-  wesh2 = simplify_fraction(-b,2*a)
-  print("Alpha = " + str(int(wesh2[0]))+"/"+str(int(wesh2[1]))+" ou sinon " + str(alpha))
+  print("Alpha = " + str(alpha)+" ou sinon " + str(float(alpha)))
+if beta.denominator == 1:
+  print("Beta = " + str(beta.numerator))
+else: 
+	print("Beta = " + str(beta)+" ou sinon " + str(float(beta))) 
 
-if beta == int(beta):
-  print("Alpha = " + str(int(beta)))
-else:
-  wesh2 = simplify_fraction(-((b**2)-(4*a*c)),4*a)
-  print("Beta = " + str(int(wesh2[0]))+"/"+str(int(wesh2[1]))+" ou sinon " + str(beta))
 
 #print delta
-if delta == int(delta):
+if delta.denominator == 1:
   print("Delta = " + str(int(delta)))
 else :
-  print("Delta = " + str(delta)) 
+  print("Delta = " + str(delta)+" ou sinon " +str(float(delta)))  
 
 #print les solutions de l'équation + le tableau de signes
 if delta < 0 :
@@ -64,7 +65,7 @@ if delta < 0 :
   if beta >= 0:
     plt.ylim(-2.1,beta+5.1)
   else:
-    plt.ylim(beta-2.1,(-1)*beta)  
+    plt.ylim(beta-2.1,float((-1)*beta))   
   if a > 0:
     print()
     print("Tableau de signe de f(x) : ")
@@ -78,7 +79,7 @@ if delta < 0 :
     print("          f(x)  |             -            |")
     print()
 elif delta == 0:
-    solution = round(-b/(2*a),2)
+    solution = (-b)/(2*a)
     print("La seule solution de cette équation est %s" % solution)
     plt.xlim(solution - 5.1,solution + 5.1)
     plt.ylim(-8.0,8.0)
@@ -97,21 +98,27 @@ elif delta == 0:
 elif delta > 0:
      solution2 = round((-b-(delta**0.5))/(2*a),2)
      solution1 = round((-b+(delta**0.5))/(2*a),2)
-     wesh = (solution2 + solution1)/8
+     wesh = (solution2 + solution1)/2
      if a > 0:
       print()
       print("Tableau de signe de f(x) : ")
       print("          x     | -infini     %s          %s     +infini |" % (solution2,solution1))
       print("          f(x)  |       +       " + "0" + "     -     " + " 0" + "       +     " + (len(str(solution2))-1)*" " + "|")
       print()
-      plt.xlim(solution2 + wesh ,solution1 - wesh)
+      if solution2 < 0:
+        plt.xlim(solution2 - wesh ,solution1 + wesh)
+      else :
+        plt.xlim(solution2 - wesh ,solution1 + wesh)
      elif a < 0:
       print()
       print("Tableau de signe de f(x) : ")
       print("          x     | -infini     %s          %s     +infini |" % (solution1,solution2))
       print("          f(x)  |       -       " + "0" + "      +     " + " 0" + "       -     " + (len(str(solution1))-1)*" " + "|")
       print()
-      plt.xlim(solution1 - wesh ,solution2 + wesh)
+      if solution2 < 0:
+        plt.xlim(solution2 - wesh ,solution1 + wesh)
+      else :
+        plt.xlim(solution2 + wesh ,solution1 - wesh)
      plt.plot((-b-(delta**0.5))/(2*a),0,'ro')
      plt.plot((-b+(delta**0.5))/(2*a),0,'ro')
      plt.text(solution2,-0.4, str(solution2), fontsize=12)
@@ -139,7 +146,7 @@ elif delta > 0:
      if beta >= 0:
         plt.ylim(-2.1,beta+2.1)
      else:
-        plt.ylim(beta-2.1,(-1)*beta) 
+        plt.ylim(beta-2.1,float((-1)*beta))  
 
 
 
@@ -149,7 +156,7 @@ if courbe == "y":
   plt.title("Représentation graphique d'une fonction")
   plt.plot(x,y)
   plt.plot(alpha,beta,'ro')
-  r = "S(%s;%s)" % ( round(alpha,4), round(beta,4))
+  r = "S(%s;%s)" % ( alpha, beta)
   if beta >= 0:
      plt.text(alpha, beta+0.2, r, fontsize=12)
   else:
@@ -163,7 +170,18 @@ if courbe == "y":
   ax.yaxis.set_ticks_position('left')
   ax.spines['left'].set_position(('data',0))
   plt.subplots_adjust(left=0, bottom=0, right=1, top=1,wspace=None, hspace=None)
-  figManager = plt.get_current_fig_manager() 
-  figManager.full_screen_toggle() 
+  if abs(int(beta)) >= 10:
+  	ax.yaxis.set_major_locator(MultipleLocator(2.0))
+  else:
+  	ax.yaxis.set_major_locator(MultipleLocator(1.0))
+  ax.xaxis.set_major_locator(MultipleLocator(1.0))
+  ax.xaxis.set_minor_locator(MultipleLocator(0.2))
+  ax.yaxis.set_minor_locator(MultipleLocator(0.2))
+  ax.grid(which='major', axis='x', linewidth=0.75, linestyle='-', color='0.75')
+  ax.grid(which='minor', axis='x', linewidth=0.25, linestyle='-', color='0.75')
+  ax.grid(which='major', axis='y', linewidth=0.75, linestyle='-', color='0.75')
+  ax.grid(which='minor', axis='y', linewidth=0.25, linestyle='-', color='0.75')
+  # ax.set_xticklabels([])
+  # ax.set_yticklabels([])
   plt.show()
   plt.savefig('ok_mec.png')
