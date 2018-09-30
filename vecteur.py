@@ -26,6 +26,7 @@ liste = []
 couleur = ['b','g','r','c','m','y','k','w'] 
 liste_abscisse = []
 liste_ordonnee = []
+colineaire = [] 
 
 
 typ = input("Des points ou des vecteurs ? (p/v) ")
@@ -75,15 +76,22 @@ ax.grid(which='major', axis='y', linewidth=0.75, linestyle='-', color='0.75')
 ax.grid(which='minor', axis='y', linewidth=0.25, linestyle='-', color='0.75')
 # ax.set_xticklabels([])
 # ax.set_yticklabels([])
-for x in range(int(len(liste)/2)):
+for x in range(1,int(len(liste)/2)+1):
   abscisse = liste[1][0] - liste[0][0]
   ordonee = liste[1][1] - liste[0][1]
-
+  colineaire.append([abscisse,ordonee])
+  print("Le vecteur num%s a pour coordonnees ( %s , %s )" % (x+1,abscisse,ordonee))
   try:
     ax.arrow(liste[0][0], liste[0][1], abscisse, ordonee, head_width=0.1, head_length=0.15, fc='k', ec=couleur[x])
   except :
     ax.arrow(liste[0][0], liste[0][1], abscisse, ordonee, head_width=0.1, head_length=0.15, fc='k', ec='k')
   liste.remove(liste[0])
   liste.remove(liste[0])
+  if x % 2 == 0:
+    if colineaire[0][0]*colineaire[1][1] == colineaire[0][1]*colineaire[1][0]:
+      print("Les deux derniers vecteurs sont colineaires")
+    else:
+      print("Les deux derniers vecteurs ne sont pas colineaires")
+
 plt.show()
 
